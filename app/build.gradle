@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+
+// 产物名：app/build/outputs/apk/release/SegNBPicHooker-release.apk
+base {
+    archivesName = 'SegNBPicHooker'
+}
+
+// 签名信息从工程根目录的 keystore.properties 读取（该文件不入库，格式见 keystore.properties.example）
+def keystorePropsFile = rootProject.file('keystore.properties')
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) {
+    keystorePropsFile.withInputStream { keystoreProps.load(it) }
+}
+def hasReleaseKey = keystoreProps.getProperty('storeFile') != null
+
+android {
+    namespace 'com.LT.SegNBPicHooker'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.LT.SegNBPicHooker"
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        resourceConfigurations += ['zh', 'en']
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    signingConfigs {
+        release {
+            if (hasReleaseKey) {
+                storeFile rootProject.file(keystoreProps.getProperty('storeFile'))
+                storePassword keystoreProps.getProperty('storePassword')
+                keyAlias keystoreProps.getProperty('keyAlias')
+                keyPassword keystoreProps.getProperty('keyPassword')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (hasReleaseKey) {
+                signingConfig signingConfigs.release
+            } else {
+                // 没有本地密钥时退回调试签名，保证仍能出包（正式发布请补齐 keystore.properties）
+                logger.warn('[SegNBPicHooker] 未找到 keystore.properties，release 将使用调试签名')
+                signingConfig signingConfigs.debug
+            }
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    // Xposed API：仅编译期需要，运行时由 LSPosed 框架提供，不会打进 APK
+    compileOnly 'de.robv.android.xposed:api:82'
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.10.0'
+}

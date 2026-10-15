@@ -1,0 +1,101 @@
+# =============================================================================
+#  SegNBPicHooker —— 入库白名单之外的都别提交
+#  原则：进 git 的只有「源码 + 资源 + 构建脚本 + Gradle wrapper」，
+#        密钥、密码、本机路径、构建产物、IDE 状态一律不入库。
+# =============================================================================
+
+# ---------------------------------------------------------------- 密钥 / 凭据
+# 签名密钥一旦泄露，别人可以用同一包名签出「能覆盖安装」的假更新包，所以绝不入库。
+# 本机保留：./segnbpic.keystore + ./keystore.properties（格式见 keystore.properties.example）
+*.jks
+*.keystore
+*.bks
+*.p12
+*.pfx
+*.p8
+*.pem
+*.key
+*.der
+keystore.properties
+signing.properties
+secrets.properties
+.env
+.env.*
+!.env.example
+
+# ------------------------------------------------------------ 本机环境 / 路径
+# Android Studio 自动生成，内容是本机 SDK 绝对路径
+local.properties
+# 本机专属覆盖配置（常被用来放本地路径、代理、私有仓库凭据）
+local.gradle
+gradle.local.properties
+
+# ------------------------------------------------------------ 构建产物 / 缓存
+# 注意：这里故意写 build/ 而不是更宽的规则；也不要写 release/——
+# 那会把 Android 的 app/src/release/ 源集目录一起忽略掉
+build/
+app/build/
+app/release/
+out/
+captures/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.hprof
+output-metadata.json
+native-debug-symbols/
+.externalNativeBuild/
+.cxx/
+.gradle/
+.kotlin/
+
+# ------------------------------------------------------------------- IDE 状态
+# 工作区里可能同时存在打开过的多个目录（根目录 / app/），一律排除
+.idea/
+*.iml
+*.iws
+*.ipr
+.fleet/
+
+# --------------------------------------------------------- 本机临时 / 分析产物
+# 逆向分析、反编译、临时脚本等本机产物
+.analysis/
+apktool_out/
+jadx_out/
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+
+# --------------------------------------------------------------- 日志 / 系统
+*.log
+*.log.*
+nohup.out
+Thumbs.db
+desktop.ini
+.DS_Store
+*~
+*.swp
+*.swo
+$RECYCLE.BIN/
+
+# ----------------------------------------------------- 工具 / 助手产生的状态
+# Codex、Claude Code、Cursor 等在本机留下的会话与索引，属于机器状态，不入库
+.codex/
+.agents/
+.claude/
+.cursor/
+
+# =============================================================================
+#  下面这些是「必须保留」的，故意不被忽略（备忘记事，勿删）：
+#    gradlew / gradlew.bat / gradle/wrapper/gradle-wrapper.jar
+#    gradle/wrapper/gradle-wrapper.properties / gradle/gradle-daemon-jvm.properties
+#    settings.gradle / build.gradle / app/build.gradle / gradle.properties
+#    keystore.properties.example（只有格式，没有真实密码）
+#    app/src/**（源码、资源、Manifest、xposed_init）、app/proguard-rules.pro
+#    README.md / .gitignore
+# =============================================================================
+/docs/Description.md
