@@ -1,0 +1,4 @@
+// 根工程：只声明 Android Gradle Plugin（无需任何额外 Gradle 插件）
+plugins {
+    id 'com.android.application' version '8.5.0' apply false
+}

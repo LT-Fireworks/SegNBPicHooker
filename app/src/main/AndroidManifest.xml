@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Android 11+ 的包可见性：允许按 UID 识别九号出行进程（provider 里用来判断调用方） -->
+    <queries>
+        <package android:name="cn.ninebot.ninebot" />
+    </queries>
+
+    <application
+        android:name=".App"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SegNBPicHooker">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 只读、单向下发：把界面里选好的车辆图交给九号出行进程 -->
+        <provider
+            android:name=".provider.VehImageProvider"
+            android:authorities="com.LT.SegNBPicHooker.vehimg"
+            android:exported="true"
+            android:grantUriPermissions="true" />
+
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="替换九号出行 App 首页的车辆图片" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82" />
+        <meta-data
+            android:name="xposedscope"
+            android:value="cn.ninebot.ninebot" />
+    </application>
+
+</manifest>

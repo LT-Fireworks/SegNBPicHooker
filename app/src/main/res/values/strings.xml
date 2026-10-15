@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SegNBPicHooker</string>
+
+    <string name="ui_subtitle">车辆图替换</string>
+    <string name="ui_preview_desc">车辆图预览</string>
+    <string name="ui_empty">还没有选择图片</string>
+    <string name="ui_pick">选择图片</string>
+    <string name="ui_reset">恢复默认</string>
+
+    <string name="ui_status_on">当前：使用自定义图片</string>
+    <string name="ui_status_off">当前：使用默认车辆图</string>
+    <string name="ui_detail_on">来源：%1$s\n尺寸：%2$d × %3$d   大小：%4$s\n更新时间：%5$s</string>
+    <string name="ui_detail_off">点下面的按钮选一张图片，即可替换 App 首页的车辆图。</string>
+
+    <string name="ui_tips">声明：本项目不是九号官方产品。作者不对用户的任何行为负责。\n作者：酷安@路人甲小李 · Github@LT-Fireworks\n\n使用说明\n1. 在 LSPosed 里启用本模块，作用域勾选「九号出行」。\n2. 选好图片后，重新打开（或杀掉后台再进入）APP即可看到新图片。\n3. 「恢复默认」会删除自定义图片，回到默认的车辆图。</string>
+
+    <string name="snack_picked">已应用，重新打开APP即可看到</string>
+    <string name="snack_reset">已恢复默认车辆图</string>
+    <string name="snack_failed">保存失败：%1$s</string>
+    <string name="err_read">无法读取所选文件</string>
+    <string name="err_not_image">无法识别此文件</string>
+</resources>
